@@ -1,47 +1,22 @@
 import React from "react";
-import axios from 'axios';
-import Movie from './Movie';
-import'./App.css';
-class App extends React.Component {
-  state ={
-    isLoading : true,
-    movie:[],
-  };
-  getMovies =async()=>{
-    const {
-      data:{
-        data:{movies},
-      },
-    } = await axios.get('https://yts-proxy.now.sh/list_movies.json?sort_by=rating');
-    this.setState({movies,isLoading:false});//movies: movies -> 앞 movies는 state, 뒤 movies는 구조분해할당으로 얻은 영화데이터 변수
-  }
-  componentDidMount(){
-    this.getMovies();
-  }
-  render(){ 
-    const { isLoading,movies } = this.state;
-    return (
-    <section class="container">
-      {isLoading ? (
-        <div class="loader">
-          <span class="loader__text">Loading...</span>
-        </div>
-        ) : (
-      <div class="movies"> 
-       {movies.map(movie=>(
-        <Movie
-        key={movie.id}
-        id={movie.id}
-        year={movie.year}
-        title={movie.title}
-        summary={movie.summary}
-        poster={movie.medium_cover_image}
-        />
-        ))}
-        </div> 
-      )}
-    </section>
-    );
-  }
+import './App.css';
+import { HashRouter, Route, Routes } from "react-router-dom";
+import About from './routes/About';
+import Home from './routes/Home';
+import Navigation from "./component/Navigation";
+import Detail from "./routes/Detail";
+
+function App(){
+  return (
+    <HashRouter>
+      <Navigation/>
+      <Routes>
+      <Route path="/" exact={true}element={<Home />} /> 
+      <Route path="/about" element={<About />} />
+      <Route path="/movie-detail" element={<Detail />} />
+      </Routes>
+    </HashRouter> //HashRouter에 Route를 넣고 Route가 About컴포넌트를 불러옴
+  );
 }
+
 export default App;
