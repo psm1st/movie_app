@@ -12,7 +12,7 @@ function Detail(props){
     });
 
     if(location.state){
-        return <span>{location.state.title}</span>
+        return <h1>{location.state.title}</h1>
     }
     return null;
 }
